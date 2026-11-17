@@ -1,142 +1,76 @@
+## V2: Evaluation and corpus analysis
 
-# RAG Application
+### Start the application
 
-A document question-answering application developed for the AI Systems Integration and Operations course.
-
-## Features
-
-### V1
-- Upload and delete Markdown and plain-text documents.
-- Configure chunk size and overlap.
-- Generate embeddings using Sentence Transformers.
-- Store and retrieve vectors with ChromaDB.
-- Ask questions using an OpenAI-compatible LLM API.
-- Display answers and source references.
-
-### V2
-- Separate Kestrel and own-document corpora.
-- Compare retrieval configurations.
-- Evaluate HitRate@k and Recall@k.
-- Run no-context LLM baselines.
-- Analyse corpus vocabulary and question words in the Words tab.
-- Record manual answer grades.
-
-## Architecture
-
-Document indexing:
-
-File -> Text -> Chunks -> Embeddings -> ChromaDB
-
-Question answering:
-
-Question -> Query embedding -> Dense retrieval -> LLM -> Answer and references
-
-## Requirements
-
-- Python 3.11 or 3.12
-- Node.js
-- npm
-
-## Backend setup
-
-From the repository root:
-
-```bash
-python -m venv .venv
-source .venv/Scripts/activate
-pip install -r backend/requirements.txt
-```
-
-Copy `.env.example` to `.env` and configure the LLM provider credentials.
-
-Start the backend from the repository root:
+From the repository root, start the backend:
 
 ```bash
 uvicorn app.main:app --app-dir backend --reload --port 8000
 ```
 
-API documentation: http://localhost:8000/docs
-
-## Frontend setup
-
-Open another terminal:
+In a second terminal, start the frontend:
 
 ```bash
 cd frontend
-npm install
 npm run dev
 ```
 
-Open http://localhost:3000
+The frontend is available at `http://localhost:3000` and the API at `http://localhost:8000/api`.
 
-## V2 corpora
+### V2 corpora
 
-The two source corpora are stored in:
+V2 evaluates two corpora:
 
-- `data/kestrel/`
-- `data/own/`
+- `kestrel`: the five-document Kestrel knowledge base.
+- `own`: `technology-skills.md`, the project’s networking and cybersecurity corpus.
 
-Their question sets are:
+The saved question sets are `evaluation/kestrel_questions.jsonl` and `evaluation/own_questions.jsonl`.
 
-- `evaluation/kestrel_questions.jsonl`
-- `evaluation/own_questions.jsonl`
+### Run V2 evaluation
 
-Index both corpora from the repository root:
-
-```bash
-curl -X POST "http://localhost:8000/api/v2/index/kestrel?chunk_size=800&overlap=100"
-curl -X POST "http://localhost:8000/api/v2/index/own?chunk_size=800&overlap=100"
-```
-
-Check indexed corpora:
-
-```bash
-curl http://localhost:8000/api/v2/corpora
-```
-
-## V2 evaluation
-
-Run the evaluation from the repository root:
+With the backend running, send:
 
 ```bash
 curl -X POST http://localhost:8000/api/v2/evaluate
 ```
 
-The generated files are saved under `evaluation/results/`:
+The evaluation outputs are saved under `evaluation/results/`. The retrieval evaluation compares chunk sizes 800/100 and 400/50 at top-k values 1, 3, 5 and 10. Unanswerable questions are excluded from HitRate and Recall.
 
-- `v2-retrieval-results.json`
-- `v2-no-context-results.json`
+### Retrieve and optionally generate an answer
 
-The retrieval evaluation compares chunk configurations and reports HitRate@k and Recall@k.
+Retrieval-only is the default:
 
-## Words analysis
+```bash
+curl -X POST http://localhost:8000/api/v2/retrieve \
+  -H "Content-Type: application/json" \
+  -d '{"corpus_id":"kestrel","question":"How do I troubleshoot KST-5031?","top_k":10}'
+```
 
-1. Start the backend and frontend.
-2. Open the application at http://localhost:3000.
-3. Select the **Words** tab.
-4. Choose Kestrel or Own corpus.
-5. Select Corpus vocabulary to inspect words and their chunk mappings.
-6. Select Question analysis to see which question words occur in the corpus and the chunks containing them.
+To request an answer generated from the retrieved evidence, set `generate` to `true`:
 
-## Manual grading
+```bash
+curl -X POST http://localhost:8000/api/v2/retrieve \
+  -H "Content-Type: application/json" \
+  -d '{"corpus_id":"kestrel","question":"How do I troubleshoot KST-5031?","top_k":10,"generate":true}'
+```
 
-1. Open the **Manual grading** tab.
-2. Enter the corpus, question ID, question, expected answer and generated answer.
-3. Select Correct, Partial, Wrong or Unsupported.
-4. Add a short explanation.
-5. Save the grade.
-6. Export the saved grades as `v2-manual-grades.json`.
+### Words tab
 
-Manual grades are stored in the browser's local storage until exported. Keep the exported JSON with the evaluation results.
+Open the **Words** tab in the frontend.
 
-## About page
+- **Corpus mode** shows the vocabulary, word counts, total chunks, and the chunks containing a selected word.
+- **Questions mode** shows the words in each saved question, which words occur in the corpus, which chunks contain them, and which words are absent.
 
-The separate page is available at:
+Choose the corpus (`kestrel` or `own`) to inspect its vocabulary.
 
-http://localhost:3000/about
+### Evaluation artifacts
 
-It is intentionally not linked from the main application.
+Important outputs include:
 
-## Environment variables
+- `evaluation/results/v2-retrieval-results.json`
+- `evaluation/results/v2-no-context-results.json`
+- `evaluation/results/kestrel-generated-answers.jsonl`
+- `evaluation/results/own-generated-answers.jsonl`
+- `evaluation/results/manual-grading.csv`
 
-See `.env.example`. Never commit `.env`, `.env.local` or API credentials.
+The `/about` page is intentionally not linked from the main frontend navigation.

@@ -166,20 +166,41 @@ async def v2_corpora():
     return result
 
 
+
 @router.post("/v2/retrieve")
 async def v2_retrieve(request: dict):
     corpus_id = request.get("corpus_id")
     question = request.get("question", "")
     top_k = request.get("top_k", 5)
+    generate = request.get("generate", False)
 
     if not isinstance(question, str) or not question.strip():
         raise HTTPException(400, "A question is required.")
 
+    if not isinstance(generate, bool):
+        raise HTTPException(400, "generate must be true or false.")
+
     try:
         results = retrieve_v2(corpus_id, question, int(top_k))
-        return {"corpus": corpus_id, "results": results}
+
+        response = {
+            "corpus": corpus_id,
+            "question": question,
+            "results": results,
+        }
+
+        if generate:
+            generated = await generate_answer(question, results)
+            response["generation"] = json.loads(generated)
+
+        return response
+
     except (ValueError, TypeError) as exc:
         raise HTTPException(400, str(exc))
+    except LLMConfigurationError as exc:
+        raise HTTPException(503, str(exc))
+    except LLMResponseError as exc:
+        raise HTTPException(502, str(exc))
 
 
 @router.get("/v2/words/{corpus_id}")
