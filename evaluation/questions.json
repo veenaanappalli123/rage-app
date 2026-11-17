@@ -1,0 +1,192 @@
+
+{
+  "dataset_name": "Networking and Cybersecurity RAG Evaluation",
+  "version": "v1",
+  "description": "Baseline evaluation dataset for retrieval and grounded answer quality.",
+  "questions": [
+    {
+      "id": "Q01",
+      "category": "basic_retrieval",
+      "question": "What is the main purpose of a router?",
+      "expected_answer": "A router forwards packets between different networks using destination IP addresses and routing information.",
+      "evidence": [
+        "A router forwards packets between different networks.",
+        "It examines destination IP addresses."
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q02",
+      "category": "basic_retrieval",
+      "question": "What is the difference between a LAN and a WAN?",
+      "expected_answer": "A LAN connects devices over a limited geographical area, while a WAN connects networks across larger geographical distances.",
+      "evidence": [
+        "A Local Area Network (LAN) connects devices within a limited geographical area.",
+        "A Wide Area Network (WAN) connects networks across larger geographical distances."
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q03",
+      "category": "similar_concepts",
+      "question": "How is a network switch different from a router?",
+      "expected_answer": "A switch connects devices within a local network and forwards Ethernet frames using MAC addresses. A router forwards packets between different networks using IP addresses.",
+      "evidence": [
+        "A network switch connects devices within a local network.",
+        "It uses MAC addresses to forward Ethernet frames.",
+        "A router forwards packets between different networks."
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q04",
+      "category": "basic_retrieval",
+      "question": "What is the purpose of DNS?",
+      "expected_answer": "DNS translates human-readable domain names into IP addresses.",
+      "evidence": [
+        "The Domain Name System (DNS) translates human-readable domain names into IP addresses."
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q05",
+      "category": "basic_retrieval",
+      "question": "What information can DHCP assign to a device?",
+      "expected_answer": "DHCP can assign an IP address, subnet mask, default gateway and DNS server.",
+      "evidence": [
+        "This can include an IP address, subnet mask, default gateway and DNS server."
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q06",
+      "category": "similar_concepts",
+      "question": "Compare TCP and UDP in terms of reliability.",
+      "expected_answer": "TCP provides reliable, ordered delivery using acknowledgements, sequence numbers and retransmissions. UDP is connectionless and does not guarantee delivery, ordering or retransmission.",
+      "evidence": [
+        "The Transmission Control Protocol (TCP) provides reliable, ordered delivery of data.",
+        "The User Datagram Protocol (UDP) is a connectionless transport protocol.",
+        "It has less overhead than TCP but does not guarantee delivery, ordering or retransmission."
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q07",
+      "category": "basic_retrieval",
+      "question": "Which port is commonly used by HTTPS?",
+      "expected_answer": "HTTPS commonly uses port 443.",
+      "evidence": [
+        "HTTPS commonly uses port 443."
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q08",
+      "category": "multi_fact",
+      "question": "What are the three elements of the CIA triad?",
+      "expected_answer": "Confidentiality, integrity and availability.",
+      "evidence": [
+        "The CIA triad is a fundamental information security model.",
+        "It consists of confidentiality, integrity and availability."
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q09",
+      "category": "multi_fact",
+      "question": "What is the difference between authentication and authorisation?",
+      "expected_answer": "Authentication verifies the identity of a user or system. Authorisation determines what an authenticated identity is allowed to access.",
+      "evidence": [
+        "Authentication verifies the identity of a user or system.",
+        "Authorisation determines what an authenticated identity is allowed to access."
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q10",
+      "category": "security",
+      "question": "How can SQL injection be prevented?",
+      "expected_answer": "Using parameterised queries and prepared statements helps prevent SQL injection.",
+      "evidence": [
+        "Parameterised queries and prepared statements help prevent SQL injection."
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q11",
+      "category": "security",
+      "question": "What is the difference between an IDS and an IPS?",
+      "expected_answer": "An IDS monitors activity to identify suspicious behaviour or security incidents. An IPS can also take action to block detected malicious activity.",
+      "evidence": [
+        "An intrusion detection system (IDS) monitors activity to identify suspicious behaviour.",
+        "An intrusion prevention system (IPS) can also take action to block detected malicious activity."
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q12",
+      "category": "security",
+      "question": "Why should API keys not be committed to a public repository?",
+      "expected_answer": "Secrets such as API keys should be stored securely in environment variables or dedicated secret-management systems and never committed to public source repositories.",
+      "evidence": [
+        "Secrets such as API keys, passwords and database credentials should be stored securely in environment variables or dedicated secret-management systems.",
+        "They should never be committed to public source repositories."
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q13",
+      "category": "multi_fact",
+      "question": "Explain the difference between RTO and RPO.",
+      "expected_answer": "RTO is the maximum acceptable time to restore a service. RPO is the maximum acceptable amount of data loss measured in time.",
+      "evidence": [
+        "The Recovery Time Objective (RTO) defines the maximum acceptable time to restore a service.",
+        "The Recovery Point Objective (RPO) defines the maximum acceptable amount of data loss measured in time."
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q14",
+      "category": "conceptual",
+      "question": "Why is a hash function not considered encryption?",
+      "expected_answer": "A hash function produces a fixed-length digest and is not designed to be reversed to recover the original message.",
+      "evidence": [
+        "A cryptographic hash function produces a fixed-length digest from input data.",
+        "A hash is not encryption because it is not designed to be reversed to recover the original message."
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q15",
+      "category": "unanswerable",
+      "question": "Which company experienced the largest data breach in 2025?",
+      "expected_answer": null,
+      "evidence": [],
+      "answerable": false
+    },
+    {
+      "id": "Q16",
+      "category": "unanswerable",
+      "question": "What is the administrator password of the network router?",
+      "expected_answer": null,
+      "evidence": [],
+      "answerable": false
+    },
+    {
+      "id": "Q17",
+      "category": "unanswerable",
+      "question": "What is the current market price of Bitcoin?",
+      "expected_answer": null,
+      "evidence": [],
+      "answerable": false
+    },
+    {
+      "id": "Q18",
+      "category": "unanswerable",
+      "question": "Who won the 2024 Olympic football final?",
+      "expected_answer": null,
+      "evidence": [],
+      "answerable": false
+    }
+  ]
+}

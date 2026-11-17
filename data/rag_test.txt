@@ -1,0 +1,163 @@
+
+
+COMPUTER NETWORKING AND CYBERSECURITY HANDBOOK
+
+CHAPTER 1: NETWORKING FUNDAMENTALS
+
+A computer network is a collection of interconnected devices that communicate and share resources. Devices can include computers, servers, routers, switches, printers and mobile phones.
+
+A Local Area Network (LAN) connects devices within a limited geographical area, such as a home, school or office. A Wide Area Network (WAN) connects networks across larger geographical distances. The Internet is the largest example of an interconnected global network.
+
+A router forwards packets between different networks. It examines destination IP addresses and uses routing information to determine where packets should go.
+
+A network switch connects devices within a local network. It uses MAC addresses to forward Ethernet frames to the appropriate destination port.
+
+A modem connects a local network to an Internet service provider's communication infrastructure. A wireless access point allows wireless devices to connect to a network.
+
+An IP address identifies a network interface on an IP network. IPv4 addresses use 32 bits and are commonly written as four decimal numbers separated by dots. IPv6 addresses use 128 bits and were developed to provide a much larger address space.
+
+A MAC address is a hardware-level identifier associated with a network interface. Unlike IP addresses, MAC addresses are primarily used for communication within a local network.
+
+The Domain Name System (DNS) translates human-readable domain names into IP addresses. When a user visits a website, DNS resolution helps the device discover the server's network address.
+
+The Dynamic Host Configuration Protocol (DHCP) automatically assigns network configuration information to devices. This can include an IP address, subnet mask, default gateway and DNS server.
+
+A default gateway is the router or network device that forwards traffic from a local network to destinations outside that network.
+
+CHAPTER 2: NETWORK PROTOCOLS
+
+A network protocol defines rules that allow devices to communicate. Protocols specify how data is formatted, transmitted and received.
+
+The Transmission Control Protocol (TCP) provides reliable, ordered delivery of data. It uses acknowledgements, sequence numbers and retransmissions to handle lost or incorrectly ordered segments.
+
+The User Datagram Protocol (UDP) is a connectionless transport protocol. It has less overhead than TCP but does not guarantee delivery, ordering or retransmission.
+
+TCP is commonly used for applications that require reliable communication, such as web browsing, file transfers and email. UDP is often used for real-time applications such as voice communication, video streaming and online gaming.
+
+The Hypertext Transfer Protocol (HTTP) is used to exchange web resources between clients and servers. HTTPS is HTTP protected by Transport Layer Security (TLS).
+
+TLS provides encryption, authentication and integrity protection for communication. It helps prevent attackers from reading or modifying protected data while it travels across a network.
+
+Port numbers identify application services on a host. HTTP commonly uses port 80, HTTPS commonly uses port 443, SSH commonly uses port 22, and DNS commonly uses port 53.
+
+The Secure Shell (SSH) protocol provides encrypted remote access to computers. It is commonly used by system administrators to manage servers securely.
+
+The File Transfer Protocol (FTP) transfers files between systems but does not provide encryption by default. Secure alternatives include SFTP, which operates over SSH.
+
+CHAPTER 3: NETWORK SECURITY
+
+The CIA triad is a fundamental information security model. It consists of confidentiality, integrity and availability.
+
+Confidentiality means that information is accessible only to authorised individuals or systems. Encryption and access control are common methods of protecting confidentiality.
+
+Integrity means that information remains accurate and is not modified without authorisation. Hash functions, digital signatures and access controls can help protect integrity.
+
+Availability means that systems and information remain accessible when authorised users need them. Backups, redundancy and protection against denial-of-service attacks support availability.
+
+Authentication verifies the identity of a user or system. Authorisation determines what an authenticated identity is allowed to access.
+
+Multi-factor authentication requires two or more different categories of verification. These categories can include something a user knows, something they possess or something they are.
+
+The principle of least privilege states that users and processes should receive only the permissions necessary to perform their tasks.
+
+A firewall monitors and controls network traffic according to defined security rules. Firewalls can filter traffic based on IP addresses, ports, protocols and other attributes.
+
+An intrusion detection system (IDS) monitors activity to identify suspicious behaviour or possible security incidents. An intrusion prevention system (IPS) can also take action to block detected malicious activity.
+
+A Virtual Private Network (VPN) creates an encrypted tunnel across an untrusted network. VPNs are commonly used to protect remote connections.
+
+A Distributed Denial of Service (DDoS) attack attempts to overwhelm a service with traffic from multiple sources, making it unavailable to legitimate users.
+
+Phishing is a social engineering technique in which attackers impersonate trusted entities to trick users into revealing sensitive information or performing unsafe actions.
+
+Malware is software designed to harm, disrupt or gain unauthorised access to computer systems. Common categories include ransomware, spyware, trojans, worms and viruses.
+
+Ransomware is a type of malware that can encrypt files or otherwise prevent access to systems and demand payment from victims.
+
+CHAPTER 4: WEB APPLICATION SECURITY
+
+A web application typically uses a client-server architecture. The browser sends HTTP requests, and the server processes them and returns responses.
+
+A session allows an application to maintain information about an authenticated user across multiple HTTP requests. Because HTTP is stateless, applications need mechanisms such as session cookies to associate requests with a user session.
+
+Cookies are small pieces of data stored by a browser. Secure, HttpOnly and SameSite cookie attributes help reduce certain security risks.
+
+Local storage allows browser applications to store data persistently on the client side. Sensitive authentication credentials stored in local storage may be exposed if an attacker executes malicious JavaScript through a cross-site scripting vulnerability.
+
+Cross-Site Scripting (XSS) occurs when an attacker causes malicious scripts to execute in another user's browser. Input handling, output encoding and Content Security Policy can help reduce XSS risks.
+
+SQL injection occurs when untrusted input is incorporated into database queries in an unsafe way. Parameterised queries and prepared statements help prevent SQL injection.
+
+Cross-Site Request Forgery (CSRF) tricks an authenticated browser into sending an unwanted request to an application. CSRF tokens and appropriate cookie settings can help mitigate this attack.
+
+Broken access control occurs when users can access resources or perform actions beyond their authorised permissions. Applications should enforce authorisation checks on the server for every protected operation.
+
+Complete mediation means that every access to a protected resource should be checked for authorisation. Checking permission only once and trusting it indefinitely can create security problems.
+
+Input validation ensures that incoming data conforms to expected formats, types, lengths and constraints. Validation should be performed on the server even when the frontend also validates input.
+
+CHAPTER 5: CRYPTOGRAPHY
+
+Encryption transforms readable plaintext into ciphertext using a cryptographic algorithm and a key. Decryption reverses the process for authorised parties.
+
+Symmetric encryption uses the same secret key for encryption and decryption. AES is a widely used symmetric encryption algorithm.
+
+Asymmetric cryptography uses a public key and a private key. A public key can be shared, while the corresponding private key must remain protected.
+
+Digital signatures provide a way to verify message authenticity and integrity. They are created using a private key and verified using the corresponding public key.
+
+A cryptographic hash function produces a fixed-length digest from input data. SHA-256 is a widely used cryptographic hash function.
+
+A hash is not encryption because it is not designed to be reversed to recover the original message.
+
+A digital certificate binds an identity to a public key. Certificates are commonly used in TLS to help clients authenticate servers.
+
+CHAPTER 6: NETWORK MONITORING AND INCIDENT RESPONSE
+
+Network monitoring involves observing traffic, device health, service availability and security events. Monitoring helps administrators identify failures and suspicious behaviour.
+
+Logs record events generated by operating systems, applications, network devices and security tools. Centralised logging makes it easier to investigate incidents across multiple systems.
+
+A security alert is generated when monitoring systems detect activity that matches a configured rule or suspicious pattern. Alerts require investigation because not every alert represents a confirmed attack.
+
+A false positive occurs when legitimate activity is incorrectly classified as malicious. A false negative occurs when malicious activity is not detected.
+
+Incident response is a structured process for handling security incidents. Common stages include preparation, identification, containment, eradication, recovery and lessons learned.
+
+Backups help organisations recover data after accidental deletion, hardware failure, ransomware or other incidents. Backups should be tested regularly to confirm that restoration works.
+
+The Recovery Time Objective (RTO) defines the maximum acceptable time to restore a service after disruption. The Recovery Point Objective (RPO) defines the maximum acceptable amount of data loss measured in time.
+
+CHAPTER 7: CLOUD AND DISTRIBUTED SYSTEMS
+
+Cloud computing provides computing resources such as servers, storage, networking and databases over a network.
+
+Infrastructure as a Service (IaaS) provides virtualised computing infrastructure. Platform as a Service (PaaS) provides a managed platform for developing and deploying applications. Software as a Service (SaaS) provides complete applications to users over a network.
+
+A virtual machine emulates a computer system and runs its own operating system. Containers package applications and their dependencies while sharing the host operating system kernel.
+
+Docker is a platform for building and running containers. Docker Compose defines and manages multi-container applications using a configuration file.
+
+A reverse proxy receives client requests and forwards them to backend services. It can provide load balancing, TLS termination and request routing.
+
+Load balancing distributes incoming requests across multiple servers to improve performance and availability.
+
+A distributed system consists of multiple computers that communicate and coordinate to provide a service. Distributed systems introduce challenges such as network failures, latency, consistency and partial outages.
+
+CAP theorem describes a trade-off in distributed data systems involving consistency, availability and partition tolerance. During a network partition, a distributed system cannot guarantee both full consistency and full availability.
+
+CHAPTER 8: SECURITY BEST PRACTICES
+
+Software should be updated regularly to address known vulnerabilities. Security patches reduce the risk of attackers exploiting weaknesses in outdated software.
+
+Strong password policies should encourage unique passwords and the use of password managers. Passwords should never be stored in plaintext.
+
+Secrets such as API keys, passwords and database credentials should be stored securely in environment variables or dedicated secret-management systems. They should never be committed to public source repositories.
+
+Applications should use HTTPS to protect data exchanged between browsers and servers.
+
+Access permissions should be reviewed regularly. Unnecessary accounts, privileges and exposed services should be removed.
+
+Security testing should include functional tests, input validation tests, access control tests and checks for common vulnerabilities.
+
+Security is not a one-time task. It requires continuous monitoring, maintenance, testing and improvement.
