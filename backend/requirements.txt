@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+pydantic-settings
+chromadb
+sentence-transformers
+rank-bm25
+networkx
+python-dotenv
+httpx
+pytest
+pytest-asyncio
