@@ -118,3 +118,85 @@ async def ask_question(request: AskRequest):
         raise HTTPException(502, "The answer failed response validation.")
     except Exception:
         raise HTTPException(500, "The question could not be processed.")
+
+
+# V2 endpoints use a separate Chroma collection and do not modify V1.
+from app.services.v2 import (
+    index_corpus,
+    retrieve_v2,
+    words_analysis,
+)
+
+
+@router.post("/v2/index/{corpus_id}")
+async def v2_index_corpus(
+    corpus_id: str,
+    chunk_size: int = 800,
+    overlap: int = 100,
+):
+    if chunk_size < 100 or chunk_size > 5000:
+        raise HTTPException(400, "Chunk size must be between 100 and 5000.")
+    if overlap < 0 or overlap >= chunk_size:
+        raise HTTPException(400, "Overlap must be smaller than chunk size.")
+
+    try:
+        return index_corpus(corpus_id, chunk_size, overlap)
+    except ValueError as exc:
+        raise HTTPException(400, str(exc))
+    except FileNotFoundError as exc:
+        raise HTTPException(404, str(exc))
+
+
+@router.get("/v2/corpora")
+async def v2_corpora():
+    from app.services.v2 import CORPORA, collection
+
+    result = []
+    for corpus_id, folder in CORPORA.items():
+        indexed = collection.get(
+            where={"corpus_id": corpus_id},
+            include=["metadatas"],
+        )
+        result.append({
+            "corpus": corpus_id,
+            "source_folder": str(folder.relative_to(folder.parents[1])),
+            "source_exists": folder.exists(),
+            "indexed_chunks": len(indexed["ids"]),
+        })
+    return result
+
+
+@router.post("/v2/retrieve")
+async def v2_retrieve(request: dict):
+    corpus_id = request.get("corpus_id")
+    question = request.get("question", "")
+    top_k = request.get("top_k", 5)
+
+    if not isinstance(question, str) or not question.strip():
+        raise HTTPException(400, "A question is required.")
+
+    try:
+        results = retrieve_v2(corpus_id, question, int(top_k))
+        return {"corpus": corpus_id, "results": results}
+    except (ValueError, TypeError) as exc:
+        raise HTTPException(400, str(exc))
+
+
+@router.get("/v2/words/{corpus_id}")
+async def v2_words(corpus_id: str, mode: str = "corpus"):
+    try:
+        return words_analysis(corpus_id, mode)
+    except ValueError as exc:
+        raise HTTPException(400, str(exc))
+    except FileNotFoundError as exc:
+        raise HTTPException(404, str(exc))
+
+
+@router.post("/v2/evaluate")
+async def v2_evaluate():
+    from app.services.evaluation_v2 import run_v2_evaluation
+
+    try:
+        return await run_v2_evaluation()
+    except Exception as exc:
+        raise HTTPException(500, f"V2 evaluation failed: {exc}")

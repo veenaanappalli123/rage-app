@@ -1,3 +1,4 @@
+import asyncio
 import json
 import httpx
 
@@ -12,17 +13,71 @@ class LLMResponseError(Exception):
     pass
 
 
-async def generate_answer(question: str, references: list[dict]) -> str:
+async def _call_llm(payload):
     if not LLM_URL or not LLM_API_KEY or not LLM_MODEL:
         raise LLMConfigurationError(
             "Configure LLM_URL, LLM_API_KEY and LLM_MODEL in .env."
         )
 
+    last_error = None
+
+    for attempt in range(4):
+        try:
+            async with httpx.AsyncClient(timeout=90) as client:
+                response = await client.post(
+                    f"{LLM_URL}/chat/completions",
+                    headers={
+                        "Authorization": f"Bearer {LLM_API_KEY}",
+                        "Content-Type": "application/json",
+                    },
+                    json=payload,
+                )
+
+                if response.status_code == 429 or response.status_code >= 500:
+                    last_error = (
+                        f"Provider returned HTTP {response.status_code}: "
+                        f"{response.text[:500]}"
+                    )
+                    await asyncio.sleep(2 ** attempt)
+                    continue
+
+                response.raise_for_status()
+                body = response.json()
+                content = body["choices"][0]["message"]["content"]
+
+                if not isinstance(content, str) or not content.strip():
+                    raise LLMResponseError(
+                        "The provider returned an empty answer."
+                    )
+
+                return content.strip()
+
+        except httpx.HTTPStatusError as exc:
+            raise LLMResponseError(
+                f"Provider HTTP error {exc.response.status_code}: "
+                f"{exc.response.text[:500]}"
+            ) from exc
+
+        except httpx.HTTPError as exc:
+            last_error = str(exc)
+            await asyncio.sleep(2 ** attempt)
+
+        except (KeyError, TypeError, ValueError) as exc:
+            raise LLMResponseError(
+                f"Invalid provider response: {exc}"
+            ) from exc
+
+    raise LLMResponseError(
+        f"Provider request failed after 4 attempts: {last_error}"
+    )
+
+
+async def generate_answer(question: str, references: list[dict]) -> str:
     evidence = [
         {
             "chunk_id": item["chunk_id"],
             "filename": item["metadata"]["filename"],
-            "text": item["text"]
+            "text": item["text"],
         }
         for item in references
     ]
@@ -54,34 +109,17 @@ Citations must use only chunk IDs supplied in the evidence.
                 "role": "user",
                 "content": json.dumps({
                     "question": question,
-                    "evidence": evidence
-                })
-            }
+                    "evidence": evidence,
+                }),
+            },
         ],
-        "response_format": {"type": "json_object"}
+        "response_format": {"type": "json_object"},
     }
 
-    try:
-        async with httpx.AsyncClient(timeout=60) as client:
-            response = await client.post(
-                f"{LLM_URL}/chat/completions",
-                headers={
-                    "Authorization": f"Bearer {LLM_API_KEY}",
-                    "Content-Type": "application/json"
-                },
-                json=payload
-            )
-            response.raise_for_status()
-    except httpx.HTTPError as exc:
-        raise LLMResponseError(
-            "The LLM provider could not complete the request."
-        ) from exc
+    content = await _call_llm(payload)
 
     try:
-        body = response.json()
-        content = body["choices"][0]["message"]["content"]
         parsed = json.loads(content)
-
         answer = parsed["answer"]
         citations = parsed["citations"]
 
@@ -89,14 +127,36 @@ Citations must use only chunk IDs supplied in the evidence.
             raise ValueError("Invalid answer structure.")
 
         allowed_ids = {item["chunk_id"] for item in references}
+
         if not set(citations).issubset(allowed_ids):
             raise ValueError("The LLM returned an unknown citation.")
 
         return json.dumps({
             "answer": answer,
-            "citations": citations
+            "citations": citations,
         })
+
     except (KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
         raise LLMResponseError(
-            "The LLM returned an invalid response. Please try again."
+            "The LLM returned an invalid response."
         ) from exc
+
+
+async def generate_no_context_answer(question: str) -> str:
+    payload = {
+        "model": LLM_MODEL,
+        "temperature": 0,
+        "messages": [
+            {
+                "role": "system",
+                "content": (
+                    "Answer using your general knowledge, without "
+                    "retrieved documents. If uncertain, say so. "
+                    "Return plain text only."
+                ),
+            },
+            {"role": "user", "content": question},
+        ],
+    }
+
+    return await _call_llm(payload)

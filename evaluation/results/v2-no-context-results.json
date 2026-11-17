@@ -1,0 +1,222 @@
+[
+  {
+    "corpus": "kestrel",
+    "question_id": "q01",
+    "question": "What does error KST-2044 mean and how do I fix it?",
+    "type": "exact_identifier",
+    "answerable": true,
+    "expected_answer": "The data source refused the connection because the Kestrel IP addresses are not on its allowlist. Add both 203.0.113.10 and 203.0.113.11; adding only one causes intermittent errors.",
+    "model_answer_without_context": null,
+    "error": "The provider returned an empty answer."
+  },
+  {
+    "corpus": "kestrel",
+    "question_id": "q02",
+    "question": "A user gets KST-4012 when accepting an invitation. What should support tell them?",
+    "type": "exact_identifier",
+    "answerable": true,
+    "expected_answer": "There is no free seat. An Admin must free a seat, or the Owner must add seats or upgrade. The same invitation then works if it is less than 7 days old.",
+    "model_answer_without_context": null,
+    "error": "Provider request failed after 4 attempts: Provider returned HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m7ksffdeek18x97svnpvkx2f` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 5868, Requested 2162. Please try again in 224.999999ms. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+  },
+  {
+    "corpus": "kestrel",
+    "question_id": "q03",
+    "question": "What happens, step by step, when a customer's card payment fails?",
+    "type": "split_answer",
+    "answerable": true,
+    "expected_answer": "E-mail to the Owner and billing contact, retries after 1, 3 and 7 days, then a 21-day grace period (everything works), then read-only, then suspension at 60 days. Nothing is deleted.",
+    "model_answer_without_context": "**Step‑by‑step flow when a customer’s card payment fails**\n\n1. **Customer enters card details**  \n   - The customer types or swipes the card number, expiry, CVV, and any other required data into the merchant’s checkout form or POS terminal.\n\n2. **Merchant sends an authorization request**  \n   - The merchant’s payment gateway (or processor) packages the transaction data and forwards it to the merchant’s acquiring bank (acquirer).\n\n3. **Acquirer forwards to the card network**  \n   - The acquirer routes the request to the appropriate card network (Visa, MasterCard, AmEx, etc.) based on the card BIN.\n\n4. **Card network routes to the issuing bank**  \n   - The network forwards the authorization to the cardholder’s issuing bank (issuer).\n\n5. **Issuer evaluates the transaction**  \n   - The issuer checks:\n     - **Fund availability** (sufficient balance or credit limit).  \n     - **Card status** (active, expired, reported lost/stolen).  \n     - **Fraud rules** (velocity, location, merchant category, etc.).  \n     - **Compliance checks** (AML, sanctions, etc.).  \n     - **3D Secure / AVS / CVV verification** if applicable.\n\n6. **Issuer returns a response**  \n   - If the transaction is declined, the issuer sends a decline code (e.g., 05 – “Do not honor”, 51 – “Insufficient funds”, 54 – “Expired card”, 57 – “Transaction not permitted to cardholder”, etc.) back through the network to the acquirer.\n\n7. **Acquirer forwards the decline to the merchant**  \n   - The acquirer passes the issuer’s response to the merchant’s gateway.\n\n8. **Merchant processes the decline**  \n   - The merchant’s system receives the decline code and:\n     - Marks the transaction as “failed” or “declined” in its database.  \n     - Prevents any capture or settlement of the transaction.  \n     - Logs the decline code and any additional data for audit and dispute handling.\n\n9. **Customer is notified**  \n   - The checkout page or POS displays a clear, user‑friendly message explaining that the payment was declined and, if possible, the reason (e.g., “Insufficient funds” or “Card expired”).  \n   - The merchant may offer alternative payment methods or suggest contacting the bank.\n\n10. **Merchant may offer retry or alternative**  \n    - Depending on the business logic, the merchant can:\n      - Prompt the customer to re‑enter card details.  \n      - Offer a different card or payment method (PayPal, Apple Pay, etc.).  \n      - Provide a “retry” button that re‑initiates the authorization flow.\n\n11. **Handling technical or network errors**  \n    - If the failure is due to a network timeout or gateway error (not a card‑issuer decline), the merchant may:\n      - Retry the request a limited number of times.  \n      - Show a generic error message (“We’re having trouble processing your payment – please try again later”).  \n      - Log the error for later investigation.\n\n12. **Post‑decline actions**  \n    - **Order status**: The merchant may cancel or hold the order until payment is resolved.  \n    - **Customer communication**: Send an email or SMS confirming the decline and next steps.  \n    - **Fraud monitoring**: Flag the transaction for review if the decline code indicates potential fraud.  \n    - **Compliance**: Store the decline data in accordance with PCI‑DSS and local regulations for potential charge‑back or audit purposes.\n\n13. **No funds are transferred**  \n    - Because the authorization was declined, no money moves from the customer’s account to the merchant’s account.  \n    - The merchant’s balance remains unchanged, and the transaction is not captured or settled.\n\n14. **Optional: Charge‑back or dispute handling**  \n    - If the customer disputes the decline later (e.g., claims the payment was accepted), the merchant can file a charge‑back with the issuer, providing evidence that the transaction was declined.\n\n---\n\n**Key take‑aways**\n\n- A declined payment stops the flow before any funds are captured.  \n- The decline code is crucial for troubleshooting and customer communication.  \n- The merchant must log the event, update order status, and offer a clear",
+    "error": null
+  },
+  {
+    "corpus": "kestrel",
+    "question_id": "q04",
+    "question": "Which plans include single sign-on, and how does an admin set it up?",
+    "type": "split_answer",
+    "answerable": true,
+    "expected_answer": "Business and Enterprise. An Admin opens Settings → Security → Single sign-on, downloads the Kestrel SP metadata, registers Kestrel in the identity provider, pastes the IdP metadata URL back, tests with one Admin, then enforces it.",
+    "model_answer_without_context": null,
+    "error": "The provider returned an empty answer."
+  },
+  {
+    "corpus": "kestrel",
+    "question_id": "q05",
+    "question": "I lost my phone and I can't log in anymore. What can I do?",
+    "type": "vocabulary",
+    "answerable": true,
+    "expected_answer": "Use a backup code. Without one, ask a workspace Admin to reset your second factor. If you are the only Admin or the Owner, contact support from the account's e-mail address; identity verification can take up to 2 business days.",
+    "model_answer_without_context": "I’m sorry you’re having trouble.  Here are some general steps you can try to regain access when you’ve lost the phone that’s tied to your account:\n\n1. **Use a backup phone number or email**  \n   - Most services let you add an alternate phone number or a recovery email.  \n   - On the login page, click “Forgot password?” or “Can’t access your account?” and follow the prompts.  \n   - If you have a recovery email, you’ll usually get a link or code sent there.\n\n2. **Use a backup code**  \n   - If you set up two‑factor authentication (2FA) you may have printed or saved a list of one‑time backup codes.  \n   - Enter one of those codes when prompted.\n\n3. **Try a different device**  \n   - Log in from a computer or another phone that’s already signed in to the service.  \n   - Some services allow you to “trust” a new device after you verify your identity.\n\n4. **Contact customer support**  \n   - If none of the above work, reach out to the service’s help center.  \n   - Be ready to verify your identity (e.g., last payment info, account creation date, answers to security questions).  \n   - Explain that you lost your phone and can’t receive the 2FA code.\n\n5. **Reset your phone number**  \n   - Once you regain access, update your profile with a new phone number.  \n   - Re‑enable 2FA on a new device and generate fresh backup codes.\n\n6. **Consider account recovery tools**  \n   - Some platforms (Google, Apple, Microsoft, etc.) have dedicated recovery pages that walk you through identity verification steps.\n\nIf you let me know which service you’re trying to access (e.g., Gmail, Facebook, Apple ID, etc.), I can give more specific instructions.",
+    "error": null
+  },
+  {
+    "corpus": "kestrel",
+    "question_id": "q06",
+    "question": "Can I get a refund on my annual plan 45 days after it renewed?",
+    "type": "versions",
+    "answerable": true,
+    "expected_answer": "Yes, under the current (March 2026) policy: annual plans are refundable within 60 days of renewal, pro-rated from the request date. The old 2025 policy allowed only 30 days.",
+    "model_answer_without_context": null,
+    "error": "Provider request failed after 4 attempts: Provider returned HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m7ksffdeek18x97svnpvkx2f` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 6403, Requested 2159. Please try again in 4.215s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+  },
+  {
+    "corpus": "kestrel",
+    "question_id": "q07",
+    "question": "How much do I save by paying annually instead of monthly?",
+    "type": "versions",
+    "answerable": true,
+    "expected_answer": "20% compared with twelve months of monthly billing (it was 15% under the 2025 policy).",
+    "model_answer_without_context": "The amount you save by choosing an annual plan instead of paying month‑to‑month depends on the discount the provider offers. Most companies give a small to moderate discount for paying upfront—typically somewhere between **5 % and 15 %** of the total yearly cost. Here’s a quick way to estimate it:\n\n1. **Find the monthly price (M).**  \n2. **Multiply by 12 to get the yearly cost if you paid monthly:**  \n   \\[\n   \\text{Yearly\\_monthly} = M \\times 12\n   \\]\n3. **Find the annual price (A).**  \n4. **Subtract the annual price from the yearly monthly cost to get the savings:**  \n   \\[\n   \\text{Savings} = \\text{Yearly\\_monthly} - A\n   \\]\n5. **Express as a percentage of the yearly monthly cost (optional):**  \n   \\[\n   \\text{Savings\\%} = \\frac{\\text{Savings}}{\\text{Yearly\\_monthly}} \\times 100\n   \\]\n\n### Example\n\n- Monthly price: $10  \n- Annual price: $100  \n\nYearly monthly cost = $10 × 12 = $120  \nSavings = $120 – $100 = $20  \nSavings percentage = (20 / 120) × 100 ≈ 16.7 %\n\nIn this example you’d save about **$20** or **17 %** by paying annually.\n\n### Things to keep in mind\n\n- **Not all services offer a discount** for annual billing; some charge the same amount whether you pay monthly or yearly.\n- **Promotions** (e.g., “first year free” or “buy 12 months, get 2 free”) can increase the savings dramatically.\n- **Refund policies**: If you cancel early, you may lose the prepaid portion, so consider how long you plan to stay subscribed.\n- **Budgeting**: Paying annually requires a larger upfront outlay, which may or may not fit your cash flow.\n\nIf you let me know the specific service or product you’re looking at, I can give a more precise estimate.",
+    "error": null
+  },
+  {
+    "corpus": "kestrel",
+    "question_id": "q08",
+    "question": "Error KST-5031 happened on the last two scheduled reports. Which team should support contact, and where?",
+    "type": "two_hop",
+    "answerable": true,
+    "expected_answer": "Messaging, which owns postroom: post in #oncall-messaging as SEV-2. Outside 08:00–20:00 on weekdays, escalate to the Platform on-call.",
+    "model_answer_without_context": null,
+    "error": "The provider returned an empty answer."
+  },
+  {
+    "corpus": "kestrel",
+    "question_id": "q09",
+    "question": "Is there a Kestrel mobile app for iPhone?",
+    "type": "not_in_corpus",
+    "answerable": false,
+    "expected_answer": "Not in the documents.",
+    "model_answer_without_context": null,
+    "error": "Provider request failed after 4 attempts: Provider returned HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m7ksffdeek18x97svnpvkx2f` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 6419, Requested 2155. Please try again in 4.305s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+  },
+  {
+    "corpus": "kestrel",
+    "question_id": "q10",
+    "question": "How much does one seat cost per month on the Business plan?",
+    "type": "not_in_corpus",
+    "answerable": false,
+    "expected_answer": "Not in the documents (the billing policy says prices are on the pricing page).",
+    "model_answer_without_context": "I’m not sure which product you’re referring to. Could you let me know the name of the service or platform?",
+    "error": null
+  },
+  {
+    "corpus": "own",
+    "question_id": "O01",
+    "question": "What are the main differences between TCP and UDP?",
+    "type": "comparison",
+    "answerable": true,
+    "expected_answer": "TCP provides reliable communication using handshakes and retransmissions. UDP has lower overhead and does not provide the same delivery guarantees.",
+    "model_answer_without_context": "**TCP (Transmission Control Protocol)**  \n- Connection‑oriented: a connection is established with a three‑way handshake before data is sent.  \n- Reliable: retransmits lost packets, ensures in‑order delivery, and detects errors.  \n- Flow control and congestion control: adjusts sending rate based on receiver capacity and network conditions.  \n- Higher overhead: headers are larger (20 bytes) and extra control messages are needed.  \n- Suitable for applications that need guaranteed, ordered delivery (e.g., web, email, file transfer).\n\n**UDP (User Datagram Protocol)**  \n- Connectionless: no handshake; packets are sent independently.  \n- Unreliable: no retransmission, no ordering guarantees, and minimal error checking (checksum only).  \n- No flow or congestion control: sends data at the application’s pace.  \n- Lower overhead: smaller header (8 bytes) and no control messages.  \n- Suitable for time‑sensitive or bandwidth‑sensitive applications where occasional loss is acceptable (e.g., VoIP, streaming, gaming, DNS).",
+    "error": null
+  },
+  {
+    "corpus": "own",
+    "question_id": "O02",
+    "question": "Which tools can be used to inspect DNS records and resolve domain names?",
+    "type": "basic_retrieval",
+    "answerable": true,
+    "expected_answer": "dig and nslookup are used for DNS lookup and inspection.",
+    "model_answer_without_context": null,
+    "error": "The provider returned an empty answer."
+  },
+  {
+    "corpus": "own",
+    "question_id": "O03",
+    "question": "What does the CIA triad stand for?",
+    "type": "basic_retrieval",
+    "answerable": true,
+    "expected_answer": "Confidentiality, integrity and availability.",
+    "model_answer_without_context": "Confidentiality, Integrity, Availability.",
+    "error": null
+  },
+  {
+    "corpus": "own",
+    "question_id": "O04",
+    "question": "What is the principle of least privilege?",
+    "type": "security",
+    "answerable": true,
+    "expected_answer": "Least privilege means granting only the permissions needed to perform a task.",
+    "model_answer_without_context": "The principle of least privilege (PoLP) is a security concept that dictates that any user, process, or system component should be granted only the minimum level of access—or permissions—necessary to perform its legitimate functions. By limiting privileges, the potential damage from accidental or malicious misuse is reduced.  \n\nKey points of PoLP:\n\n1. **Minimal Permissions** – Users and programs receive only the rights they need (e.g., read, write, execute) and nothing more.  \n2. **Role‑Based or Task‑Based** – Permissions are often assigned based on roles or specific tasks rather than blanket access.  \n3. **Dynamic Adjustment** – Privileges can be elevated temporarily for a task and then revoked, ensuring that high‑privilege access is not persistent.  \n4. **Defense in Depth** – PoLP is one layer of a broader security strategy, complementing other controls like authentication, auditing, and network segmentation.  \n\nImplementing PoLP helps prevent privilege escalation attacks, limits the spread of malware, and reduces the impact of insider threats.",
+    "error": null
+  },
+  {
+    "corpus": "own",
+    "question_id": "O05",
+    "question": "What is the difference between authentication and authorization?",
+    "type": "comparison",
+    "answerable": true,
+    "expected_answer": "Authentication verifies identity, while authorization determines permitted access.",
+    "model_answer_without_context": "**Authentication** is the process of verifying who someone is.  \n- It answers the question: *“Are you who you claim to be?”*  \n- Common methods: passwords, PINs, biometrics, tokens, certificates, etc.  \n- The result is a credential or token that proves identity.\n\n**Authorization** is the process of determining what an authenticated user is allowed to do.  \n- It answers the question: *“What can you do now that you’re verified?”*  \n- It involves checking permissions, roles, policies, or access control lists to grant or deny specific actions or resources.\n\nIn short:  \n- **Authentication** = “Who are you?”  \n- **Authorization** = “What are you allowed to do?”",
+    "error": null
+  },
+  {
+    "corpus": "own",
+    "question_id": "O06",
+    "question": "Name two tools used for packet capture and protocol inspection.",
+    "type": "basic_retrieval",
+    "answerable": true,
+    "expected_answer": "Wireshark and tcpdump.",
+    "model_answer_without_context": "Wireshark and tcpdump.",
+    "error": null
+  },
+  {
+    "corpus": "own",
+    "question_id": "O07",
+    "question": "What is the purpose of network segmentation?",
+    "type": "security",
+    "answerable": true,
+    "expected_answer": "Network segmentation separates network areas to support security and control.",
+    "model_answer_without_context": "Network segmentation is used to divide a larger network into smaller, isolated segments or subnets. The main purposes are:\n\n1. **Security** – By isolating sensitive systems or data, segmentation limits the spread of malware, reduces the attack surface, and makes it harder for attackers to move laterally after compromising one part of the network.\n\n2. **Performance and traffic management** – Smaller broadcast domains reduce congestion, improve bandwidth allocation, and allow better control over traffic flows.\n\n3. **Compliance and policy enforcement** – Segmentation helps meet regulatory requirements (e.g., PCI‑DSS, HIPAA) by separating protected data from general network traffic and applying specific controls to each segment.\n\n4. **Simplified troubleshooting and monitoring** – Issues can be contained and diagnosed within a specific segment without affecting the entire network.\n\n5. **Access control** – Different user groups or devices can be granted only the network resources they need, enforcing least‑privilege principles.\n\nOverall, segmentation enhances security, improves network efficiency, and supports governance and compliance objectives.",
+    "error": null
+  },
+  {
+    "corpus": "own",
+    "question_id": "O08",
+    "question": "Name four common web application vulnerabilities listed in the document.",
+    "type": "multi_fact",
+    "answerable": true,
+    "expected_answer": "SQL injection, XSS, CSRF and SSRF are examples.",
+    "model_answer_without_context": "Four common web‑application vulnerabilities are:\n\n1. **SQL Injection** – unsanitized user input that allows attackers to execute arbitrary SQL commands.  \n2. **Cross‑Site Scripting (XSS)** – injection of malicious scripts that run in victims’ browsers.  \n3. **Cross‑Site Request Forgery (CSRF)** – tricking a user’s browser into sending unwanted requests.  \n4. **Insecure Direct Object References (IDOR)** – exposing internal objects (files, database records) through predictable identifiers.",
+    "error": null
+  },
+  {
+    "corpus": "own",
+    "question_id": "O09",
+    "question": "What is the role of Nmap in authorized security testing?",
+    "type": "basic_retrieval",
+    "answerable": true,
+    "expected_answer": "Nmap supports scoped network discovery and service enumeration.",
+    "model_answer_without_context": "Nmap is a foundational tool in authorized security testing (penetration testing, vulnerability assessments, and network audits). Its primary role is to gather accurate, up‑to‑date information about the target environment so that testers can focus their efforts on real risks. Key functions include:\n\n1. **Host Discovery** – Quickly identifies which IP addresses are active on a network, helping to confirm the scope of the test and avoid scanning unintended systems.\n\n2. **Port Scanning** – Enumerates open TCP/UDP ports on each host, revealing the attack surface and potential entry points for further exploitation.\n\n3. **Service Identification** – Detects the software and version running on each open port (e.g., Apache 2.4.46, OpenSSH 7.9p1). Knowing the exact service version allows testers to look up known CVEs and exploit paths.\n\n4. **Operating‑System Fingerprinting** – Uses packet characteristics to guess the OS (Linux, Windows, etc.), which informs the selection of appropriate exploits and mitigations.\n\n5. **Scripted Checks** – Nmap’s NSE (Nmap Scripting Engine) can run lightweight checks for common misconfigurations, default credentials, or known vulnerabilities, providing a quick “quick‑look” before deeper testing.\n\n6. **Baseline and Change Management** – By running scans before and after patching or configuration changes, testers can verify that vulnerabilities have been remediated and that no new issues were introduced.\n\n7. **Network Topology Mapping** – Visualizes the layout of subnets, routers, firewalls, and other devices, aiding in planning lateral movement or identifying segmentation weaknesses.\n\n8. **Compliance Verification** – Many regulatory frameworks require documented evidence of network inventory and open ports; Nmap outputs can be used to satisfy these audit requirements.\n\n9. **Reporting** – Nmap can generate XML, HTML, or grepable output that integrates into broader reporting tools, making it easier to document findings for stakeholders.\n\nIn short, Nmap provides the “who, what, where, and how” of a network in a non‑intrusive, repeatable way. By delivering a clear picture of the attack surface, it enables authorized testers to prioritize their efforts, focus on high‑risk targets, and produce actionable, evidence‑based recommendations.",
+    "error": null
+  },
+  {
+    "corpus": "own",
+    "question_id": "O10",
+    "question": "What are the main stages of incident response mentioned in the document?",
+    "type": "multi_fact",
+    "answerable": true,
+    "expected_answer": "Containment, eradication and recovery.",
+    "model_answer_without_context": "I’m not sure which specific document you’re referring to, but most incident‑response frameworks outline the same core stages. The typical phases are:\n\n1. **Preparation** – Establish policies, tools, and training so the team is ready to respond.  \n2. **Identification / Detection** – Recognize that an incident has occurred and determine its scope.  \n3. **Containment** – Limit the spread or impact of the incident (short‑term and long‑term containment).  \n4. **Eradication** – Remove the root cause, malware, or vulnerability that enabled the incident.  \n5. **Recovery** – Restore systems to normal operation and verify that they’re secure.  \n6. **Lessons Learned / Post‑incident review** – Analyze what happened, update defenses, and improve future response.  \n\nSome models combine or rename steps (e.g., “Detection & Analysis” instead of “Identification”), but the six‑step sequence above is the most widely cited.",
+    "error": null
+  },
+  {
+    "corpus": "own",
+    "question_id": "O11",
+    "question": "What is the purpose of multi-factor authentication?",
+    "type": "unanswerable",
+    "answerable": false,
+    "expected_answer": "The document mentions multi-factor authentication but does not explain its purpose.",
+    "model_answer_without_context": "Multi‑factor authentication (MFA) is designed to strengthen security by requiring two or more independent pieces of evidence (factors) to verify a user’s identity. These factors typically include something you know (a password or PIN), something you have (a smartphone, hardware token, or smart card), and/or something you are (biometric data such as a fingerprint or facial recognition). By combining multiple factors, MFA makes it far more difficult for attackers to gain unauthorized access, because compromising one factor (e.g., a stolen password) is usually not enough to impersonate the legitimate user.",
+    "error": null
+  },
+  {
+    "corpus": "own",
+    "question_id": "O12",
+    "question": "Which exact TCP port does the document recommend opening for SSH?",
+    "type": "unanswerable",
+    "answerable": false,
+    "expected_answer": "The document does not specify an SSH port.",
+    "model_answer_without_context": "TCP port 22.",
+    "error": null
+  }
+]
